@@ -3,9 +3,9 @@
   <component name="FacetManager">
     <facet type="django" name="Django">
       <configuration>
-        <option name="rootFolder" value="$MODULE_DIR$/schimbCadou/schimbCadou" />
-        <option name="settingsModule" value="settings.py" />
-        <option name="manageScript" value="$MODULE_DIR$/schimbCadou/manage.py" />
+        <option name="rootFolder" value="$MODULE_DIR$/schimbCadou" />
+        <option name="settingsModule" value="schimbCadou/settings.py" />
+        <option name="manageScript" value="manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
         <option name="doNotUseTestRunner" value="false" />
         <option name="trackFilePattern" value="" />
@@ -19,5 +19,10 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/schimbCadou/templates" />
+      </list>
+    </option>
   </component>
 </module>
