@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+{% if products %}
+    {% for product in products %}
+        <div class="col-md-2">
+            <div class="card">
+                {% if product.product_picture %}
+                    <img src="{{ product.product_picture.url }}" class="card-img-top" height="200"
+                         alt="Image product">
+                {% else %}
+                    <img src="{% static 'images/img.png' %}" class="card-img-top" height="200"
+                         alt="Image product">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">Description: {{ product.description }}<br>
+                        Price: {{ product.price }}</p>
+                    {% if user.is_authenticated %}
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#exchangeModal" onclick="exchangeButtonClicked('{{ product.id }}')">Schimb
+                            </button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#buyModal"
+                                    onclick="buyButtonClicked('{{ product.id }}','{{ product.name }}','{{ product.description }}','{{ product.price }}','{{ product.product_picture }}')">
+                                Cumpar
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div>
+        <h3 class="text-center">No data available</h3>
+    </div>
+{% endif %}
+
+<script type="text/javascript" src="{% static 'js/get_buy_exchange_product_info.js' %}"></script>

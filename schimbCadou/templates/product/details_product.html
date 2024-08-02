@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Details product {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <br><br>
+                <div class="card text-center">
+                    <div class="card-header">
+                        View details
+                    </div>
+                    <div class="card-body">
+                        {% if product.product_picture %}
+                            <img src="{{ product.product_picture.url }}" width="100" class="rounded"
+                                 alt="Image product">
+                        {% else %}
+                            <img src="{% static 'images/img.png' %}" width="100" height="100" alt="Image product">
+                        {% endif %}
+                        <h5 class="card-title">{{ product }}</h5>
+                        <p class="card-text">Description: {{ product.description }}</p>
+                        <p class="card-text">Price : {{ product.price }}</p>
+                        <a href="{% url 'list-products' %}" class="btn btn-primary">Cancel</a>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        Created at {{ product.created_at|date:"d-m-Y H:i:s" }}/ Updated
+                        at {{ product.updated_at|date:"d-m-Y H:i:s" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

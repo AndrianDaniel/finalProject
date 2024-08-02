@@ -4,29 +4,24 @@
 {% block title %} Schimb cadou {% endblock %}
 
 {% block content %}
-    
-    <h1 class="text-center">Imi place cadoul tau mai mult !</h1>
-    <p class="text-center">De cate ori nu ai auzit aceasta fraza sau nu ai gandit-o ?
-        Acum ai ocazia sa schimbi cadoul primit si nu numai...<br>
-        Arunca o privire pe pagina noastra, poate gasesti ceva ce iti place!</p>
-    
+
+    <div style="background-color: darkslategrey; color: antiquewhite">
+        <h1 class="text-center">Imi place cadoul tau mai mult !</h1>
+        <p class="text-center">De cate ori nu ai auzit aceasta fraza sau nu ai gandit-o ?
+            Acum ai ocazia sa schimbi cadoul primit si nu numai...<br>
+            Arunca o privire pe pagina noastra, poate gasesti ceva ce iti place!</p>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Electronice
-                        <span class="badge text-bg-primary rounded-pill">14</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Non-electronice
-                        <span class="badge text-bg-primary rounded-pill">2</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Diverse
-                        <span class="badge text-bg-primary rounded-pill">1</span>
-                    </li>
-                </ul>
+            {% if user.is_authenticated %}
+                {% include 'categories.html' %}
+            {% endif %}
+            <div class="col-md-4">
+                {% with products as products %}
+                    <h5 class="text-center" style="color: white">Produse disponibile pe site:</h5>
+                {% include 'media_carousel.html' %}
+                {% endwith %}
             </div>
         </div>
     </div>

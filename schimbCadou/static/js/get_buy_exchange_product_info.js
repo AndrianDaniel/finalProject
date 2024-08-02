@@ -23,7 +23,11 @@ function buyButtonClicked(productId, productName, productDescription, productPri
 
     const imgProductPicture = document.querySelector('#buyModal #buyProductPicture');
     if (imgProductPicture) {
-        imgProductPicture.src = window.location.origin + "/media/" + productPicture
+        if (productPicture) {
+            imgProductPicture.src = window.location.origin + "/media/" + productPicture;
+        } else {
+            imgProductPicture.src = window.location.origin + "/static/images/img.png"
+        }
     }
 }
 

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} List of products {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if all_products %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Product picture</th>
+                            <th>Product name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in all_products %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    {% if product.product_picture %}
+                                        <img src="{{ product.product_picture.url }}" width="60" height="60"
+                                             alt="Image product">
+                                    {% else %}
+                                        <img src="{% static 'images/img.png' %}" width="60" height="60"
+                                             alt="Image product">
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ product.category }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            more actions
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{% url 'update-product' product.id %}">Update</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="{% url 'delete-product' product.id %}">Delete</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="{% url 'details-product' product.id %}">View details</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                {% else %}
+                    <div>
+                        <h3 class="text-center">No data available</h3>
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+{% endblock %}

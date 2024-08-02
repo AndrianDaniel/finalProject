@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg " style="background-color: coral">
+<nav class="navbar navbar-expand-lg bg-success-subtle">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Facem schimb ?</a>
+        <a class="navbar-brand" href="{% url 'home-page' %}">Bine ai venit!</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -9,31 +9,58 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home-page' %}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'home-page' %}">Acasa</a>
                 </li>
 
                 {% if user.is_authenticated %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            Dropdown
+                            Facem schimb ?
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="{% url 'list-requests' %}">Vezi oferte primite</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sent-requests' %}">Afiseaza produsele pentru care am solicitat schimb</a>
+                            </li>
                         </ul>
                     </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Produsele mele
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'create-product' %}">Adauga produs nou</a></li>
+                            <li><a class="dropdown-item" href="{% url 'list-products' %}">Afiseaza produsele
+                                mele</a></li>
+                            <li><a class="dropdown-item" href="{% url 'get-history' %}">Afiseaza istoricul produselor
+                                mele</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Contul meu
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'password_change' %}">Schimba parola</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Report something</a></li>
+                        </ul>
+                    </li>
+
                 {% endif %}
             </ul>
-        
+
             {% if user.is_authenticated %}
 
                 <form method="post" action="{% url 'logout' %}">
@@ -41,8 +68,10 @@
                     <button type="submit" class="btn btn-secondary">Logout, {{ user.username }}</button>
                 </form>
 
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Cautare" aria-label="Search">
+                <form method="post" class="d-flex" role="search" action="{% url 'search-results' %}">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="text" name="search_term" placeholder="Cautare produs"
+                           aria-label="Search">
                     <button class="btn btn-light" type="submit">Search</button>
                 </form>
 
@@ -54,7 +83,7 @@
                 </div>
 
             {% endif %}
-
+        
         </div>
     </div>
 </nav>

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Search results {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <h4 class="text-center">Rezultatele cautarii dupa termenul "{{ search_criteria }}"</h4>
+            
+            {% include 'categories.html' %}
+            
+            {% include 'products.html' %}
+        </div>
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}

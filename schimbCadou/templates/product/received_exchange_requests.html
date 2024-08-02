@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Received exchange requests {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% if exchange_requests %}
+                {% for exchange_request in exchange_requests %}
+                    <div class="col-md-2">
+                        <div class="card text-center">
+                            <div class="card-header">
+                                View details
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ exchange_request.base_product.name }}</h5>
+                                <p>de dat la schimb pentru:</p>
+                                {% for product in exchange_request.exchange_for.all %}
+                                    <h5 class="card-text">{{ product.name }}</h5>
+                                {% endfor %}
+                                <div class="card-footer text-center">
+                                    <form method="post" style="display: inline" action= {% url 'accept-exchange' %}>
+                                        {% csrf_token %}
+                                        <input type="number" name='request_id' value="{{ exchange_request.id }}"
+                                               style="display:none">
+                                        <input type="text" name='action' value="a" style="display:none">
+                                        <button type="submit" class="btn btn-danger">Accept</button>
+                                    </form>
+
+                                    <form method="post" style="display: inline" action= {% url 'accept-exchange' %}>
+                                        {% csrf_token %}
+                                        <input type="number" name='request_id' value="{{ exchange_request.id }}"
+                                               style="display:none">
+                                        <input type="text" name='action' value="d" style="display:none">
+                                        <button type="submit" class="btn btn-primary">Decline</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>
+                    <h3 class="text-center">No data available</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

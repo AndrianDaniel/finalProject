@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<!-- Modal Schimb-->
+<div class="modal fade" id="exchangeModal" tabindex="-1" role="dialog" aria-labelledby="exchangeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exchangeModalLabel">Ce dai la schimb?</h5>
+            </div>
+            <form action="{% url 'handle-exchange' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% for personal_product in personal_products %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="product_ids"
+                                   value="{{ personal_product.id }}"
+                                   id="product-{{ personal_product.id }}">
+                            <label class="form-check-label" for="product-{{ personal_product.id }}">
+                                {{ personal_product.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" id="exchangeProductId" name="product_id" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuleaza</button>
+                    <button type="submit" class="btn btn-primary">Schimba</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cumpar-->
+<div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="buyModalLabel">Esti sigur ca vrei sa cumperi produsul de mai jos?</h5>
+            </div>
+            <form action="{% url 'handle-buy' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="buyProductId" name="product_id" value="">
+                    
+                    <img src="#" id="buyProductPicture" height="200" alt="ProductImage">
+                    <br>
+                    <label for="buyProductName">Nume:</label>
+                    <span id="buyProductName"></span>
+                    <br>
+                    <label for="buyProductDescription">Descriere:</label>
+                    <span id="buyProductDescription"></span>
+                    <br>
+                    <label for="buyProductPrice">Pret:</label>
+                    <span id="buyProductPrice"></span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nu</button>
+                    <button type="submit" class="btn btn-primary">Da</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

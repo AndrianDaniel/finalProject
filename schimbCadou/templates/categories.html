@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load home_extras %}
+<div class="col-md-2">
+    <h6 class="text-center" style="color: white">Categorii de produse</h6>
+    <br>
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'category-view' pk=category.id %}"
+                   class="stretched-link text-decoration-none">
+                    {{ category.name|title }}</a>
+                {% with category.products as products %}
+                    <span class="badge text-bg-primary rounded-pill">{{ products|count_excluding_own_products:user }}</span>
+                {% endwith %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} Sent exchange requests {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if exchange_requests %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Product name</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for exchange_request in exchange_requests %}
+                            <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ exchange_request.base_product.name }}</td>
+                            <td>
+                                {% if exchange_request.accepted == 'a' %}
+                                    Accepted
+                                {% elif exchange_request.accepted == 'd' %}
+                                    Declined
+                                {% else %}
+                                    Awaiting response
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                {% else %}
+                    <div>
+                        <h3 class="text-center">No data available</h3>
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+{% endblock %}

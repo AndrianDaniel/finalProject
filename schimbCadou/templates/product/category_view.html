@@ -4,15 +4,15 @@
 
 {% block content %}
     <div class="container-fluid">
-        <h4 class="text-center">Produse din categoria {{ object.name.title }}</h4>
+        <h4 class="text-center" style="color: antiquewhite; background-color: darkslategrey">Produse din categoria <br> {{ object.name.title }}</h4>
+        <br>
         <div class="row">
-
             {% include 'categories.html' %}
-
             {% include 'products.html' %}
         </div>
         {% include 'modal.html' %}
     </div>
+
 {% endblock %}
 
 
