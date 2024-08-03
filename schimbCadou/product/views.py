@@ -9,8 +9,8 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 
-from .forms import ProductForm, ProductUpdateForm,ExchangeAcceptanceForm
-from .models import Product, HistoryProduct, Category, ExchangeRequestModel
+from .forms import ProductForm, ProductUpdateForm, ExchangeAcceptanceForm, ProductReportForm
+from .models import Product, HistoryProduct, Category, ExchangeRequestModel, ProductReportModel
 from schimbCadou import settings
 
 
@@ -35,7 +35,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 			new_product.save()
 
 			json_user_details = {
-				'name': new_product.name
+				'name': new_product.name,
+				'action': 'created',
 			}
 
 			HistoryProduct.objects.create(message=json_user_details, created_at=datetime.datetime.now(),
@@ -73,6 +74,11 @@ class HistoryProductListView(LoginRequiredMixin, ListView):
 
 	def get_queryset(self):
 		return HistoryProduct.objects.filter(user=self.request.user)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['exchange_requests'] = ExchangeRequestModel.objects.filter(requester=self.request.user)
+		return context
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
@@ -135,6 +141,7 @@ def handle_create_exchange(request):
 
 	return HttpResponseRedirect('/sent_requests')
 
+
 @require_POST
 def handle_exchange(request):
 	form = ExchangeAcceptanceForm(data=request.POST)
@@ -147,17 +154,18 @@ def handle_exchange(request):
 			action = cleaned_data.get("action")
 			if action == 'a':
 				exchange_request.handle_exchange()
-				return HttpResponse(status=202,content="Exchange handled successfully!")
-			elif action=='d':
+				return HttpResponse(status=202, content="Exchange handled successfully!")
+			elif action == 'd':
 				exchange_request.decline_offer()
 				return HttpResponse(status=202, content="Exchange declined successfully!")
 			else:
-				return HttpResponse(status=400,content="Actiune invalida")
+				return HttpResponse(status=400, content="Actiune invalida")
 
 		else:
-			return HttpResponse(status=401,content="Aceasta cerere nu iti apartine")
+			return HttpResponse(status=401, content="Aceasta cerere nu iti apartine")
 	else:
 		return HttpResponse(status=400, content="Formular completat gresit")
+
 
 @require_POST
 def handle_buy(request):
@@ -180,21 +188,26 @@ def handle_buy(request):
 
 		buy_product.clean_up_offers()
 
+		json_data_buy = {'name': buy_product.name, 'action': "bought"}
+		json_data_sell = {'name': buy_product.name, 'action': "sold"}
+		HistoryProduct.objects.create(message=json_data_buy,user=request.user)
+		HistoryProduct.objects.create(message=json_data_sell, user=buy_product.user)
+
 	else:
 		return HttpResponse(status=403, content="Fonduri insuficiente")
 
-
-
 	return HttpResponseRedirect('/list_products')
 
-class ReceivedExchangeRequestList(LoginRequiredMixin,ListView):
+
+class ReceivedExchangeRequestList(LoginRequiredMixin, ListView):
 	template_name = 'product/received_exchange_requests.html'
 	model = ExchangeRequestModel
 	context_object_name = 'exchange_requests'
 
 	def get_queryset(self):
-		query_set = self.model.objects.filter(owner=self.request.user,accepted='u').prefetch_related("exchange_for")
+		query_set = self.model.objects.filter(owner=self.request.user, accepted='u').prefetch_related("exchange_for")
 		return query_set
+
 
 class SentExchangeRequestList(LoginRequiredMixin, ListView):
 	template_name = 'product/sent_exchange_requests.html'
@@ -205,3 +218,18 @@ class SentExchangeRequestList(LoginRequiredMixin, ListView):
 		query_set = self.model.objects.filter(requester=self.request.user).prefetch_related("exchange_for")
 		return query_set
 
+
+@require_POST
+def report_product(request):
+	form = ProductReportForm(request.POST)
+	print(request.POST)
+
+	if form.is_valid():
+		print(form.cleaned_data)
+		product = get_object_or_404(Product, pk=form.cleaned_data.get('product'))
+		comment = form.cleaned_data.get('comment')
+		print(comment)
+
+		ProductReportModel.objects.create(user=request.user, product=product, comment=comment)
+
+		return HttpResponse(status=201, content="Success")

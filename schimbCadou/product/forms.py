@@ -38,3 +38,17 @@ class ExchangeAcceptanceForm(forms.Form):
 	request_id = forms.IntegerField()
 	action = forms.ChoiceField(choices=choices)
 
+class ProductReportForm(forms.Form):
+	product = forms.IntegerField()
+	comment = forms.CharField(widget=forms.Textarea())
+
+	class Meta:
+		fields = ['product', 'comment']
+
+
+
+
+
+
+
+

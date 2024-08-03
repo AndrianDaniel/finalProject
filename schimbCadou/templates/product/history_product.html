@@ -6,21 +6,38 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+            <h5 class="text-center" style="background-color: navajowhite">Istoric de actiuni pe produse</h5>
                 {% if products_history %}
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <td>No.</td>
-                            <td>Product info</td>
+                            <th>No.</th>
+                            <th>Product info</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for history in products_history %}
+                            {% if history.message.action == 'created' %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>Produsul cu numele {{ history.message.name }} a fost adaugat
                                     la {{ history.created_at|date:"d-m-Y H:i:s" }}</td>
                             </tr>
+                            {% endif %}
+                              {% if history.message.action == 'bought' %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>Produsul cu numele {{ history.message.name }} a fost cumparat
+                                    la {{ history.created_at|date:"d-m-Y H:i:s" }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if history.message.action == 'delete' %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>Produsul cu numele {{ history.message.name }} a fost sters
+                                    la {{ history.created_at|date:"d-m-Y H:i:s" }}</td>
+                            </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
@@ -30,6 +47,41 @@
                     </div>
                 {% endif %}
             </div>
+        </div>
+        <div class="row">
+        <h5 class="text-center" style="background-color: navajowhite">Istoric de schimburi solicitate</h5>
+            {% if exchange_requests %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Product name</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for exchange_request in exchange_requests %}
+                        <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ exchange_request.base_product.name }}</td>
+                        <td>
+                            {% if exchange_request.accepted == 'a' %}
+                                Accepted
+                            {% elif exchange_request.accepted == 'd' %}
+                                Declined
+                            {% else %}
+                                Awaiting response
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div>
+                    <h3 class="text-center">No data available</h3>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

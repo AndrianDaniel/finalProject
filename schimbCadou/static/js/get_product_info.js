@@ -37,4 +37,10 @@ function exchangeButtonClicked(productId) {
         hiddenInput.value = productId;
     }
 }
+function reportButtonClicked(productId) {
+    const hiddenInput = document.querySelector('#reportModal #reportProductId')
+    if (hiddenInput) {
+        hiddenInput.value = productId
+    }
+}
 

@@ -17,20 +17,16 @@
                         </thead>
                         <tbody>
                         {% for exchange_request in exchange_requests %}
-                            <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ exchange_request.base_product.name }}</td>
-                            <td>
-                                {% if exchange_request.accepted == 'a' %}
-                                    Accepted
-                                {% elif exchange_request.accepted == 'd' %}
-                                    Declined
-                                {% else %}
-                                    Awaiting response
-                                {% endif %}
-                            </td>
+                            {% if exchange_request.accepted == 'u' %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ exchange_request.base_product.name }}</td>
+                                    <td>
+                                        Awaiting response
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
-                        </tr>
                         </tbody>
                     </table>
                     </div>

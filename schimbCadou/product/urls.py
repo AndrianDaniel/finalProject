@@ -16,4 +16,5 @@ urlpatterns = [
 	path('list_requests', views.ReceivedExchangeRequestList.as_view(), name='list-requests'),
 	path('sent_requests', views.SentExchangeRequestList.as_view(), name='sent-requests'),
 	path('handle_buy',views.handle_buy, name='handle-buy'),
+	path('report_product', views.report_product, name='report-product'),
 ]

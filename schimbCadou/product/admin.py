@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, ExchangeRequestModel, WalletModel
+from .models import Category, Product, ExchangeRequestModel, WalletModel, ProductReportModel, HistoryProduct
 
 admin.site.register(Category)
 admin.site.register(Product)
@@ -13,3 +13,5 @@ class ExchangeRequestModelAdmin(admin.ModelAdmin):
 		model = ExchangeRequestModel
 
 admin.site.register(ExchangeRequestModel, ExchangeRequestModelAdmin)
+admin.site.register(ProductReportModel)
+admin.site.register(HistoryProduct)

@@ -26,6 +26,8 @@ class Product(models.Model):
 
 	def delete(self, *args, **kwargs):
 		self.product_picture.delete()
+		json_data_delete = {'name': self.name, 'action': 'delete'}
+		HistoryProduct.objects.create(message=json_data_delete,user=self.user)
 		super(Product, self).delete(*args, **kwargs)
 
 	def clean_up_offers(self,exclude=None):
@@ -58,7 +60,7 @@ class HistoryProduct(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	def __str__(self):
-		return self.message
+		return (self.message.get('name') or self.id)
 
 class ExchangeRequestModel(models.Model):
 	choices = [('a', 'Accepted'), ('d', 'Declined'), ('u', 'Unprocessed')]
@@ -103,4 +105,14 @@ class WalletModel (models.Model):
 	user = models.OneToOneField(User, related_name='wallet', on_delete=models.CASCADE)
 	amount = models.DecimalField(max_digits=9, decimal_places=2, default=0)
 
+class ProductReportModel (models.Model):
+	choices = [('r', 'Resolved'), ('d', 'Declined'), ('u', 'Unprocessed')]
 
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	comment = models.TextField(max_length=450)
+
+	resolution = models.CharField(max_length=1,choices=choices, default='u')

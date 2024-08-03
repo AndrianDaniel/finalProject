@@ -17,12 +17,20 @@
                     {% if user.is_authenticated %}
                         <div class="card-footer text-center">
                             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#exchangeModal" onclick="exchangeButtonClicked('{{ product.id }}')">Schimb
+                                    data-bs-target="#exchangeModal" onclick="exchangeButtonClicked('{{ product.id }}')">
+                                Schimb
                             </button>
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#buyModal"
                                     onclick="buyButtonClicked('{{ product.id }}','{{ product.name }}','{{ product.description }}','{{ product.price }}','{{ product.product_picture }}')">
                                 Cumpar
+                            </button>
+
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                    data-bs-target="#reportModal" onclick="reportButtonClicked('{{ product.id }}')">
+                                Report
                             </button>
                         </div>
                     {% endif %}
@@ -36,4 +44,4 @@
     </div>
 {% endif %}
 
-<script type="text/javascript" src="{% static 'js/get_buy_exchange_product_info.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/get_product_info.js' %}"></script>
