@@ -131,9 +131,6 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = 'mail.aplicatiedjango.ro'
-# EMAIL_HOST_USER = 'ro60@aplicatiedjango.ro'
-# EMAIL_HOST_PASSWORD = 'Django1234!'
-# EMAIL_PORT = 587
+
 
 # CRISPY_TEMPLATE_PACK = 'boostrap5'

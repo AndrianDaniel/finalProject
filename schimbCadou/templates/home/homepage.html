@@ -17,10 +17,12 @@
             {% if user.is_authenticated %}
                 {% include 'categories.html' %}
             {% endif %}
-            <div class="col-md-4">
+            <div class="col-4 {% if user.is_authenticated %} offset-3 {% else %} offset-4 {% endif %}">
                 {% with products as products %}
                     <h5 class="text-center" style="background-color: navajowhite">Produse disponibile pe site:</h5>
-                {% include 'media_carousel.html' %}
+                    <div class="text-center">
+                        {% include 'media_carousel.html' %}
+                    </div>
                 {% endwith %}
             </div>
         </div>
