@@ -62,7 +62,7 @@ class HistoryProduct(models.Model):
 	def __str__(self):
 		return (self.message.get('name') or self.id)
 
-class ExchangeRequestModel(models.Model):
+class  ExchangeRequestModel(models.Model):
 	choices = [('a', 'Accepted'), ('d', 'Declined'), ('u', 'Unprocessed')]
 
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='original_owner')
